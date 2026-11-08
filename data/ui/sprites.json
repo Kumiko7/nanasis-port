@@ -1,0 +1,1214 @@
+{
+ "attention": {
+  "size": [
+   154,
+   148
+  ],
+  "border": [
+   77,
+   74,
+   77,
+   74
+  ]
+ },
+ "icon_frame_mask": {
+  "size": [
+   20,
+   20
+  ],
+  "border": [
+   10,
+   10,
+   10,
+   10
+  ]
+ },
+ "log_text_base": {
+  "size": [
+   44,
+   44
+  ],
+  "border": [
+   22,
+   22,
+   22,
+   22
+  ]
+ },
+ "btn_movie_skip": {
+  "size": [
+   143,
+   69
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "subcategory_btn_on_o": {
+  "size": [
+   209,
+   64
+  ],
+  "border": [
+   104,
+   56,
+   104,
+   7
+  ]
+ },
+ "icon_check": {
+  "size": [
+   38,
+   29
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "log_base": {
+  "size": [
+   44,
+   44
+  ],
+  "border": [
+   22,
+   22,
+   22,
+   22
+  ]
+ },
+ "log_scroll_bar": {
+  "size": [
+   6,
+   10
+  ],
+  "border": [
+   0,
+   5,
+   0,
+   5
+  ]
+ },
+ "base_common_square_white_alpha_blue_outline_2pt": {
+  "size": [
+   6,
+   6
+  ],
+  "border": [
+   3,
+   3,
+   3,
+   3
+  ]
+ },
+ "subcategory_btn_on": {
+  "size": [
+   209,
+   64
+  ],
+  "border": [
+   104,
+   56,
+   104,
+   7
+  ]
+ },
+ "scrollbar_img_reduced": {
+  "size": [
+   6,
+   8
+  ],
+  "border": [
+   3,
+   4,
+   3,
+   4
+  ]
+ },
+ "btn_choice": {
+  "size": [
+   150,
+   82
+  ],
+  "border": [
+   61,
+   0,
+   89,
+   0
+  ]
+ },
+ "base_menu_button": {
+  "size": [
+   38,
+   39
+  ],
+  "border": [
+   19,
+   0,
+   19,
+   0
+  ]
+ },
+ "icon_menu_delta": {
+  "size": [
+   10,
+   16
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "frame_log_choice": {
+  "size": [
+   56,
+   56
+  ],
+  "border": [
+   28,
+   28,
+   28,
+   28
+  ]
+ },
+ "subcategory_btn_off": {
+  "size": [
+   209,
+   64
+  ],
+  "border": [
+   104,
+   56,
+   104,
+   7
+  ]
+ },
+ "subcategory_bg_reduced": {
+  "size": [
+   22,
+   22
+  ],
+  "border": [
+   11,
+   11,
+   11,
+   11
+  ]
+ },
+ "triangle_w": {
+  "size": [
+   49,
+   42
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_blue_square": {
+  "size": [
+   61,
+   62
+  ],
+  "border": [
+   12,
+   16,
+   14,
+   13
+  ]
+ },
+ "btn_white_rect_square_reduced": {
+  "size": [
+   40,
+   44
+  ],
+  "border": [
+   20,
+   20,
+   20,
+   24
+  ]
+ },
+ "btn_white_rectangle_reduced": {
+  "size": [
+   40,
+   44
+  ],
+  "border": [
+   16,
+   0,
+   24,
+   0
+  ]
+ },
+ "text_icon": {
+  "size": [
+   22,
+   22
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "scrollbar_8px4px": {
+  "size": [
+   8,
+   8
+  ],
+  "border": [
+   4,
+   4,
+   4,
+   4
+  ]
+ },
+ "jacket_empty_l": {
+  "size": [
+   300,
+   300
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "bg_jacket_light": {
+  "size": [
+   100,
+   101
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "jacket_empty": {
+  "size": [
+   100,
+   100
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_soundplayer_repeat_single": {
+  "size": [
+   49,
+   51
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_soundplayer_shuffle_off": {
+  "size": [
+   49,
+   51
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "soundplayer_submenu_bg": {
+  "size": [
+   108,
+   109
+  ],
+  "border": [
+   16,
+   19,
+   18,
+   16
+  ]
+ },
+ "soundplayer_seekbar": {
+  "size": [
+   13,
+   24
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "icon_soundplayer_option": {
+  "size": [
+   26,
+   6
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_soundplayer_repeat_all": {
+  "size": [
+   49,
+   51
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_soundplayer_repeat_off": {
+  "size": [
+   49,
+   51
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_soundplayer_stop": {
+  "size": [
+   64,
+   64
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_soundplayer_prev": {
+  "size": [
+   49,
+   51
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_soundplayer_shuffle_on": {
+  "size": [
+   49,
+   51
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "balloon_arrow": {
+  "size": [
+   21,
+   11
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_soundplayer_play": {
+  "size": [
+   64,
+   64
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_soundplayer_next": {
+  "size": [
+   49,
+   51
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "eff_tapcircle": {
+  "size": [
+   176,
+   176
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_name_change": {
+  "size": [
+   34,
+   35
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "blur_left_black_mask_reduced": {
+  "size": [
+   816,
+   852
+  ],
+  "border": [
+   784,
+   0,
+   32,
+   0
+  ]
+ },
+ "scenariotetitlebar01": {
+  "size": [
+   742,
+   70
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "scenariotetitlebar02": {
+  "size": [
+   210,
+   26
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "scenariotetitlebar03": {
+  "size": [
+   740,
+   100
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "scenariotetitlebar04": {
+  "size": [
+   216,
+   24
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "eff_scenariotetitle": {
+  "size": [
+   56,
+   58
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "frame_text_area": {
+  "size": [
+   424,
+   86
+  ],
+  "border": [
+   400,
+   24,
+   24,
+   62
+  ]
+ },
+ "icon_next_delta": {
+  "size": [
+   29,
+   19
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "icon_auto": {
+  "size": [
+   62,
+   62
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "icon_fast_forward": {
+  "size": [
+   62,
+   62
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_setting": {
+  "size": [
+   107,
+   39
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_skip": {
+  "size": [
+   116,
+   48
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_auto": {
+  "size": [
+   116,
+   48
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_fast_forward": {
+  "size": [
+   116,
+   48
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_log": {
+  "size": [
+   116,
+   48
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_hide": {
+  "size": [
+   116,
+   48
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_interrupt": {
+  "size": [
+   116,
+   48
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "menu_base": {
+  "size": [
+   38,
+   39
+  ],
+  "border": [
+   19,
+   21,
+   19,
+   18
+  ]
+ },
+ "btn_back_v2": {
+  "size": [
+   63,
+   64
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_movie_stop": {
+  "size": [
+   68,
+   68
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "icon_download": {
+  "size": [
+   24,
+   19
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "base_popup": {
+  "size": [
+   232,
+   82
+  ],
+  "border": [
+   23,
+   24,
+   208,
+   44
+  ]
+ },
+ "btn_episode_category_selected": {
+  "size": [
+   261,
+   105
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "icon_check_box": {
+  "size": [
+   35,
+   35
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "scrollarea_blue": {
+  "size": [
+   6,
+   6
+  ],
+  "border": [
+   3,
+   3,
+   3,
+   3
+  ]
+ },
+ "icon_shiori": {
+  "size": [
+   18,
+   29
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "main": {
+  "size": [
+   121,
+   122
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_cansel": {
+  "size": [
+   28,
+   28
+  ],
+  "border": [
+   14,
+   14,
+   14,
+   14
+  ]
+ },
+ "btn_close": {
+  "size": [
+   76,
+   76
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "movie_seek_bar_gauge": {
+  "size": [
+   10,
+   6
+  ],
+  "border": [
+   5,
+   0,
+   5,
+   0
+  ]
+ },
+ "sub_header": {
+  "size": [
+   41,
+   39
+  ],
+  "border": [
+   40,
+   0,
+   1,
+   0
+  ]
+ },
+ "cover_node_reduced": {
+  "size": [
+   96,
+   110
+  ],
+  "border": [
+   16,
+   0,
+   80,
+   0
+  ]
+ },
+ "base_header_sub_title_reduced": {
+  "size": [
+   64,
+   33
+  ],
+  "border": [
+   32,
+   0,
+   32,
+   0
+  ]
+ },
+ "icon_trash": {
+  "size": [
+   20,
+   23
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "icon_search": {
+  "size": [
+   23,
+   25
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_movie_start": {
+  "size": [
+   68,
+   68
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "mask_node_episode": {
+  "size": [
+   38,
+   110
+  ],
+  "border": [
+   18,
+   0,
+   18,
+   0
+  ]
+ },
+ "btn_episode_category": {
+  "size": [
+   247,
+   105
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "movie_seek_bar_base": {
+  "size": [
+   14,
+   10
+  ],
+  "border": [
+   7,
+   0,
+   7,
+   0
+  ]
+ },
+ "base_header": {
+  "size": [
+   418,
+   40
+  ],
+  "border": [
+   34,
+   0,
+   337,
+   0
+  ]
+ },
+ "movie_seek_bar_slider": {
+  "size": [
+   20,
+   46
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "base_node_episode_reduced": {
+  "size": [
+   46,
+   118
+  ],
+  "border": [
+   23,
+   0,
+   23,
+   0
+  ]
+ },
+ "balloon_bookmark": {
+  "size": [
+   154,
+   41
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "noimage_thumbnail": {
+  "size": [
+   174,
+   113
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "base_img_w": {
+  "size": [
+   22,
+   22
+  ],
+  "border": [
+   11,
+   11,
+   11,
+   11
+  ]
+ },
+ "btn_help_v2": {
+  "size": [
+   34,
+   35
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "balloon_orange": {
+  "size": [
+   90,
+   44
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "base_footer": {
+  "size": [
+   28,
+   28
+  ],
+  "border": [
+   13,
+   15,
+   15,
+   13
+  ]
+ },
+ "btn_mypage_v2": {
+  "size": [
+   63,
+   64
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_info_v2": {
+  "size": [
+   34,
+   35
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "balloon_pink": {
+  "size": [
+   90,
+   44
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "btn_orange_reduced": {
+  "size": [
+   48,
+   48
+  ],
+  "border": [
+   24,
+   24,
+   24,
+   24
+  ]
+ },
+ "base_list_empty": {
+  "size": [
+   154,
+   148
+  ],
+  "border": [
+   77,
+   74,
+   77,
+   74
+  ]
+ },
+ "base_scroll_list": {
+  "size": [
+   52,
+   52
+  ],
+  "border": [
+   26,
+   28,
+   26,
+   24
+  ]
+ },
+ "icon_face_frame": {
+  "size": [
+   32,
+   32
+  ],
+  "border": [
+   16,
+   16,
+   16,
+   16
+  ]
+ },
+ "icon_face_base": {
+  "size": [
+   32,
+   32
+  ],
+  "border": [
+   16,
+   16,
+   16,
+   16
+  ]
+ },
+ "menu_button": {
+  "size": [
+   60,
+   65
+  ],
+  "border": [
+   30,
+   33,
+   30,
+   32
+  ]
+ },
+ "OptionVolumeBig": {
+  "size": [
+   47,
+   35
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "OptionVolumeCursor": {
+  "size": [
+   61,
+   36
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "OptionVolumeSmall": {
+  "size": [
+   32,
+   35
+  ],
+  "border": [
+   0,
+   0,
+   0,
+   0
+  ]
+ }
+}

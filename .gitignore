@@ -1,0 +1,16 @@
+# Game files and bundled third-party runtime (large, not ours)
+/archive/
+/python/
+/tools/
+
+# Built from the archive / APK by scripts/sync.py (start.bat rebuilds it if missing).
+# ui/ is kept: its sprite list is hand-picked and some were hand-fixed.
+/data/*
+!/data/ui/
+
+# Python / OS junk
+__pycache__/
+*.pyc
+.DS_Store
+Thumbs.db
+desktop.ini

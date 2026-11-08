@@ -1,0 +1,196 @@
+/* ======================================================================
+   サウンドプレイヤー (positions from the game's scene, 1136×640; sprites in /ui/ from the APK)
+   ====================================================================== */
+#snd {
+  background:
+    linear-gradient(rgba(150, 200, 255, .12) 1px, transparent 1px) 0 0 / 8px 8px,
+    linear-gradient(90deg, rgba(150, 200, 255, .12) 1px, transparent 1px) 0 0 / 8px 8px,
+    linear-gradient(160deg, #fff 60%, #e6f3ff);
+}
+.t-btn.white.sound svg { stroke: #2f66b8; stroke-width: 2.4; width: 20px; height: 20px; }
+
+/* left: categories, then playlists */
+.s-groups {
+  position: absolute; left: 12px; top: 80px; width: 220px; height: 540px; box-sizing: border-box;
+  padding-top: 4px; overflow-y: auto; scrollbar-width: none;
+}
+.s-groups::-webkit-scrollbar { display: none; }
+.s-group { position: relative; width: 210px; height: 68px; margin: 0 5px 2px; }
+.s-group-btn {
+  position: absolute; left: .5px; top: 2px; width: 209px; height: 64px; overflow: hidden;
+  background: url(/ui/subcategory_btn_off.png) 0 0 / 100% 100%;
+  text-align: left;
+}
+.s-group.on .s-group-btn { background-image: url(/ui/subcategory_btn_on.png); }
+.s-group.drop .s-group-btn { background-image: url(/ui/subcategory_btn_on_o.png); }
+.s-group-name {
+  position: absolute; left: 10px; top: 10.5px; width: 175px; height: 43px;
+  font-size: 16px; line-height: 43px; color: #3f3f3f; white-space: nowrap; overflow: hidden;
+}
+.s-group:has(.s-group-menu) .s-group-name { width: 150px; }
+.s-group.on .s-group-name, .s-group.drop .s-group-name, .s-group.on .s-count, .s-group.drop .s-count { color: #fff; }
+.s-count { position: absolute; right: 48px; bottom: 9px; height: 14px; font-size: 10px; line-height: 14px; color: #3f3f3f; }
+.s-count.max, .s-group.on .s-count.max { color: #f00; }
+.s-group-menu {
+  position: absolute; right: 0; top: 0; width: 54px; height: 68px;
+  background: url(/ui/btn_name_change.png) center / 34px 34px no-repeat;
+}
+.s-eq { position: absolute; right: 12px; top: 5.5px; height: 53px; display: none; gap: 2px; align-items: flex-end; }
+.s-group.eq .s-eq { display: flex; }
+.s-eq i { width: 10px; height: 100%; background: rgba(183, 183, 183, .22); transform-origin: 50% 100%; transform: scaleY(.05); transition: transform .14s; }
+.s-group.on .s-eq i { background: rgba(255, 255, 255, .25); }
+.s-group-foot { height: 70px; margin: 0 5px; }
+.s-add-list {
+  margin: 10px 0 0 1px; width: 170px; height: 40px; box-sizing: border-box;
+  border-style: solid; border-width: 0 24px 0 16px;
+  border-image: url(/ui/btn_white_rectangle_reduced.png) 0 23 0 16 fill;
+  color: #1562fe; font-size: 18px; white-space: nowrap;
+}
+.s-add-list:disabled { opacity: .5; cursor: default; }
+
+/* centre: the group's songs */
+.s-panel { position: absolute; left: 238px; top: 87px; width: 380px; height: 541px; }
+.s-panel::before {
+  content: ""; position: absolute; inset: 0;
+  border-style: solid; border-width: 11px; border-image: url(/ui/subcategory_bg_reduced.png) 10 fill;
+}
+.s-list {
+  position: absolute; left: 4px; top: 4px; width: 369px; height: 533px; box-sizing: border-box;
+  padding: 5px 0 6px 9px; overflow-y: auto;
+  scrollbar-width: thin; scrollbar-color: #b9b9b9 transparent;
+}
+.s-list::-webkit-scrollbar { width: 8px; }
+.s-list::-webkit-scrollbar-thumb { background: #b9b9b9; border-radius: 4px; }
+.s-list::-webkit-scrollbar-track { background: transparent; margin: 8px 0; }
+.s-row { position: relative; width: 338px; height: 68px; isolation: isolate; cursor: pointer; }
+.s-row::before, .s-drag::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  border-style: solid; border-width: 7px 104px 56px 104px;
+  border-image: url(/ui/subcategory_btn_off.png) 7 104 56 104 fill;
+}
+.s-row.on::before { border-image-source: url(/ui/subcategory_btn_on.png); }
+.s-row.dragging { opacity: .45; }
+.s-row-jacket { position: absolute; left: 9px; top: 7px; width: 50px; height: 50px; object-fit: cover; filter: drop-shadow(1px 3px 0 rgba(0, 0, 0, .06)); pointer-events: none; }
+.s-row-name, .s-row-artist {
+  position: absolute; left: 65.5px; width: 215px; height: 25px;
+  font-size: 15px; line-height: 25px; color: #4b4b4b; white-space: nowrap; overflow: hidden;
+}
+.s-row-name { top: 4.5px; }
+.s-row-artist { top: 33.5px; }
+.s-row-line { position: absolute; left: 67px; top: 31px; width: 208px; height: 2px; background: #b2c1dd; }
+.s-row.on .s-row-name, .s-row.on .s-row-artist, .s-drag .s-row-name, .s-drag .s-row-artist { color: #fff; }
+.s-row.on .s-row-line, .s-drag .s-row-line { background: rgba(255, 255, 255, .6); }
+.s-row-menu {
+  position: absolute; right: 0; top: 0; width: 57px; height: 68px;
+  background: url(/ui/icon_soundplayer_option.png) 10px calc(50% + 1px) / 32px 7.4px no-repeat;
+}
+.s-drag { position: absolute; z-index: 60; width: 338px; height: 68px; pointer-events: none; isolation: isolate; opacity: .95; }
+.s-drag::before { border-image-source: url(/ui/subcategory_btn_on_o.png); }
+.s-insert { position: absolute; left: 19px; width: 318px; height: 4px; background: #3c92fc; pointer-events: none; }
+.s-insert::before { content: ""; position: absolute; left: -14px; top: -4px; border: 6px solid transparent; border-left: 10px solid #3c92fc; }
+.s-empty {
+  position: absolute; left: 15px; top: 208px; width: 340px; height: 124px; box-sizing: border-box;
+  border-style: solid; border-width: 40px; border-image: url(/ui/attention.png) 73 76 73 76 fill;
+  color: #fff; text-align: center; text-shadow: 0 1px 2px rgba(0, 80, 120, .5);
+}
+.s-empty b { position: absolute; left: -24px; right: -24px; top: -10px; font-size: 20px; font-weight: normal; line-height: 20px; }
+.s-empty span { position: absolute; left: -15px; width: 290px; top: 20px; font-size: 12px; line-height: 19px; text-align: left; }
+
+/* right: the player */
+.s-player > * { position: absolute; }
+.s-light { left: 725px; top: 117px; width: 292px; height: 292px; background: url(/ui/bg_jacket_light.png) 0 0 / 100% 100%; }
+.s-jacket { position: absolute; left: 11px; top: 11px; width: 270px; height: 270px; object-fit: cover; filter: drop-shadow(1px 3px 0 rgba(0, 0, 0, .06)); }
+.s-now, .s-artist { left: 618px; width: 506px; text-align: center; color: #4b4b4b; white-space: nowrap; overflow: hidden; }
+.s-now { top: 445px; height: 28px; font-size: 18px; line-height: 28px; }
+.s-artist { top: 473px; height: 20px; font-size: 14px; line-height: 20px; }
+/* the game's CurrentTime / TimeLength: FOT-Zerksie 20px */
+.s-time { top: 415px; width: 68px; height: 20px; font: 20px/20px "GameTime", var(--title); color: #000; text-align: center; }
+.s-time.cur { left: 682px; }
+.s-time.len { left: 992px; }
+.s-seek { left: 752px; top: 413px; width: 238px; height: 24px; cursor: pointer; --f: 0; touch-action: none; }
+.s-seek i { position: absolute; display: block; }
+.s-seek .track { left: 0; right: 0; top: 9px; height: 6px; border-radius: 3px; background: #c3c3c3; }
+.s-seek .fill { left: 0; top: 9px; height: 6px; border-radius: 3px; background: #3e92fc; width: calc(10px + var(--f) * 218px); }
+.s-seek .knob { top: 0; width: 13px; height: 24px; left: calc(10px + var(--f) * 218px - 6.5px); background: url(/ui/soundplayer_seekbar.png) 0 0 / 100% 100%; }
+.s-btn { top: 508.5px; width: 52px; height: 52px; background: center / contain no-repeat; }
+.s-btn:active { transform: scale(.94); }
+.s-btn.shuffle { left: 703px; background-image: url(/ui/btn_soundplayer_shuffle_off.png); }
+.s-btn.shuffle.on { background-image: url(/ui/btn_soundplayer_shuffle_on.png); }
+.s-btn.prev { left: 769px; background-image: url(/ui/btn_soundplayer_prev.png); }
+.s-btn.play { left: 837px; top: 500.5px; width: 68px; height: 68px; background-image: url(/ui/btn_soundplayer_play.png); }
+.s-btn.play.stop { background-image: url(/ui/btn_soundplayer_stop.png); }
+.s-btn.next { left: 921px; background-image: url(/ui/btn_soundplayer_next.png); }
+.s-btn.repeat { left: 987px; background-image: url(/ui/btn_soundplayer_repeat_off.png); }
+.s-btn.repeat[data-mode="all"] { background-image: url(/ui/btn_soundplayer_repeat_all.png); }
+.s-btn.repeat[data-mode="single"] { background-image: url(/ui/btn_soundplayer_repeat_single.png); }
+
+/* (where a sprite's 9-slice caps cover the whole image, the slices sit 1px inside them so there is a
+   centre to stretch, as Unity does) */
+
+/* sub menus: screen dimmed, a copy of the tapped node above it, popup beside */
+.s-mask { position: absolute; inset: 0; z-index: 40; background: rgba(0, 0, 0, .184); }
+.s-ghost { position: absolute !important; margin: 0 !important; pointer-events: none; }
+.s-sub { position: absolute; isolation: isolate; color: #000; }
+.s-sub::before {
+  content: ""; position: absolute; inset: 0; z-index: -1;
+  border-style: solid; border-width: 16px 18px 19px 16px;
+  border-image: url(/ui/soundplayer_submenu_bg.png) 16 18 19 16 fill;
+}
+.s-sub-song { width: 430px; }
+.s-sub-list { width: 420px; }
+.s-sub > * { position: absolute; }
+.s-sub-head { left: 20px; top: 18px; font-size: 24px; line-height: 28px; }
+.s-dropdown {
+  left: 18px; top: 53px; width: 266px; height: 50px; padding: 0 36px 0 12px;
+  appearance: none; -webkit-appearance: none; border: 2px solid #34a3ff; border-radius: 3px;
+  background: #fff url(/ui/balloon_arrow.png) right 7px center / 16px 12px no-repeat;
+  font: 18px var(--jp); color: #323232; cursor: pointer;
+}
+.s-sub-btn { height: 62px; box-sizing: border-box; font-size: 18px; border-style: solid; white-space: nowrap; }
+.s-sub-btn.blue { border-width: 13px 14px 16px 12px; border-image: url(/ui/btn_blue_square.png) 13 14 16 12 fill; color: #fff; }
+.s-sub-btn.white { border-width: 24px 20px 20px 20px; border-image: url(/ui/btn_white_rect_square_reduced.png) 23 19 20 20 fill; color: #0a0a0a; line-height: 1; }
+.s-sub-song .add { left: 292px; top: 48px; width: 120px; }
+.s-sub-song .remove { left: 123px; top: 133px; width: 220px; }
+.s-sub-list .s-sub-head { top: 18px; left: 18px; line-height: 23px; }
+.s-name { left: 18px; top: 55px; width: 384px; height: 45px; border-radius: 10px; background: #e3e9f2; }
+.s-name input {
+  width: 100%; height: 100%; box-sizing: border-box; padding: 0 38px; border: 0; background: none; outline: none;
+  font: 22px var(--jp); color: #3f3f3f; text-align: center; user-select: text;
+}
+.s-name i { position: absolute; right: 8px; top: 11.5px; width: 22px; height: 22px; background: url(/ui/text_icon.png) 0 0 / 100% 100%; pointer-events: none; }
+.s-sub-list .quick { left: 20px; top: 134px; width: 180px; }
+.s-sub-list .del { left: 220px; top: 134px; width: 180px; }
+
+/* クイック追加 */
+.s-quick-desc { font-size: 20px; color: #3f3f3f; }
+.s-quick-head { display: flex; align-items: center; gap: 14px; margin: 14px 0 10px; }
+.s-quick-head .tag { flex: none; width: 160px; height: 29px; border-radius: 15px; background: #165afe; color: #fff; font-size: 18px; line-height: 29px; text-align: center; }
+.s-quick-head i { flex: 1; height: 2px; background: #c6d4ea; }
+.s-quick-all { flex: none; width: 107px; height: 36px; border-radius: 18px; background: #fff; border: 2px solid #c9d3df; color: #3f3f3f; font-size: 16px; }
+.s-quick-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px 12px; }
+.s-toggle {
+  position: relative; height: 46px; padding: 0 10px 0 42px; border-radius: 8px; text-align: left;
+  background: #fff; border: 2px solid #c9d3df; color: #3f3f3f; font-size: 16px; line-height: 1.15;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.s-toggle.on { border-color: #2a8cf6; box-shadow: inset 0 0 0 1px #2a8cf6; }
+.s-toggle::before { content: ""; position: absolute; left: 12px; top: 13px; width: 20px; height: 16px; border-radius: 3px; background: #e3e9f2; }
+.s-toggle.on::before { background: url(/ui/icon_check.png) 0 0 / 100% 100% no-repeat; border-radius: 0; }
+
+/* ムービー tab (the viewer's own; built from the sound player's parts) */
+.s-section {
+  display: inline-block; max-width: 330px; box-sizing: border-box; height: 26px; margin: 8px 0 4px 2px; padding: 0 14px;
+  border-radius: 13px; background: #165afe; color: #fff; font-size: 14px; line-height: 26px;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.s-section:first-child { margin-top: 2px; }
+.s-thumb { background: #1d2635 url(/ui/jacket_empty.png) center / cover; overflow: hidden; }
+.s-badge {
+  position: absolute; right: 0; bottom: 0; padding: 0 3px; border-top-left-radius: 3px;
+  background: rgba(0, 0, 0, .62); color: #fff; font: 10px/14px var(--title);
+}
+.s-sub-uses { width: 430px; }
+.s-sub-uses .use { left: 18px; width: 394px; padding: 0 6px; overflow: hidden; text-overflow: ellipsis; }
+
+#mvx { z-index: 90; background: #000; cursor: pointer; }
+#mvxVideo { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; }

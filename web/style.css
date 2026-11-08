@@ -1,0 +1,1110 @@
+/* Layout is authored at the game's design resolution (1136x640) and scaled to the window. */
+@font-face { font-family: "GameText"; src: url("/font/rodin.otf") format("opentype"); font-display: block; }
+@font-face { font-family: "GameTitle"; src: url("/font/kafu.otf") format("opentype"); font-display: block; }
+/* the game's FOT-Zerksie (movie player time) */
+@font-face { font-family: "GameTime"; src: url("/font/zerksie.otf") format("opentype"); font-display: block; }
+
+:root {
+  --cyan: #16e2f4;
+  --cyan-dark: #00aecb;
+  --blue: #1b7cf0;
+  --blue-dark: #0d5fd0;
+  --blue-light: #44b8ff;
+  --ink: #4a4a4a;
+  --ink-strong: #333;
+  --pink: #ff3f86;
+  --panel: rgba(255, 255, 255, .93);
+  --jp: "GameText", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Meiryo", sans-serif;
+  --title: "GameTitle", "GameText", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+body { font-family: var(--jp); color: var(--ink); -webkit-font-smoothing: antialiased; }
+button { font: inherit; color: inherit; border: 0; background: none; padding: 0; cursor: pointer; }
+[hidden] { display: none !important; }
+
+#viewport { position: fixed; inset: 0; background: #000; }
+#screen {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1136px;
+  height: 640px;
+  overflow: hidden;
+  transform-origin: 50% 50%;
+  background: #000;
+  user-select: none;
+}
+.scene { position: absolute; inset: 0; }
+
+/* ======================================================================
+   Episode select
+   ====================================================================== */
+#menu { background: linear-gradient(#5aa7f2, #9fd0f7 60%, #d7eefc); }
+.m-bg { position: absolute; inset: 0; background: center / cover no-repeat; }
+.m-chara {
+  position: absolute;
+  left: 0;
+  bottom: -42px;
+  height: 640px;
+  max-width: 480px;
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 6px 14px rgba(0, 40, 120, .25));
+  pointer-events: none;
+}
+.m-chara:not([src]), .m-chara[src=""] { display: none; }
+
+.m-head { position: absolute; left: 0; right: 0; top: 0; height: 80px; pointer-events: none; }
+.m-head > * { pointer-events: auto; }
+.sq-btn {
+  position: absolute;
+  top: 15px;
+  width: 55px;
+  height: 55px;
+  border-radius: 9px;
+  background: linear-gradient(#36a9ff, #0f73e8);
+  border: 3px solid #fff;
+  box-shadow: 0 0 0 2px #1b74d8, 0 4px 6px rgba(0, 40, 120, .35);
+  display: grid;
+  place-items: center;
+}
+.sq-btn svg { width: 38px; height: 38px; fill: #fff; filter: drop-shadow(0 1px 0 rgba(0, 60, 150, .5)); }
+.sq-btn:active { transform: translateY(1px); filter: brightness(.95); }
+#mBack, #sBack, #mHome, #sHome { z-index: 1; }
+#mBack, #sBack { left: 17px; top: 13px; width: 63px; height: 64px; border: 0; border-radius: 0; box-shadow: none;
+  background: url("/ui/btn_back_v2.png") 0 0 / 100% 100%; }
+#mHome, #sHome { left: 1045px; top: 12px; width: 63px; height: 64px; border: 0; border-radius: 0; box-shadow: none;
+  background: url("/ui/btn_mypage_v2.png") 0 0 / 100% 100%; }
+#mBack svg, #sBack svg, #mHome svg, #sHome svg { display: none; }
+
+/* the game's CommonHeader: base_header (TitleBase 393x40), the title 30px in */
+.m-titlebar {
+  position: absolute;
+  left: 59px;
+  top: 17px;
+  width: 393px;
+  height: 40px;
+  padding: 0 0 0 30.5px;
+  display: flex;
+  align-items: center;
+  color: #fff;
+  font: 23px/1 var(--title);
+  background: url("/ui/base_header.png") 0 0 / 100% 100%;
+}
+/* HelpButton: btn_help_v2, 28px in from the bar's right end */
+.m-help {
+  position: absolute;
+  right: 28px;
+  top: 2px;
+  width: 34px;
+  height: 35px;
+  background: url("/ui/btn_help_v2.png") 0 0 / 100% 100%;
+  font-size: 0;
+}
+/* SubTitleBase: the base_header_sub_title_reduced 9-slice, 318x33 centred at 586 */
+.m-crumb {
+  position: absolute;
+  left: 427px;
+  top: 16.5px;
+  width: 318px;
+  height: 33px;
+  display: flex;
+  align-items: center;
+  border-style: solid;
+  border-width: 0 32px 0 32px;
+  border-image: url("/ui/base_header_sub_title_reduced.png") 0 31 0 32 fill / 0 32px 0 32px stretch;
+  padding: 0;
+  color: #183564;
+  font: 18px/1 var(--title);
+  white-space: nowrap;
+  overflow: hidden;
+}
+.m-crumb span { overflow: hidden; text-overflow: clip; }
+.m-crumb:empty, .m-crumb.empty { display: none; }
+
+/* FilterButton: the btn_white_rectangle_reduced 9-slice 166x48 with icon_check_box (+ icon_check) and the label */
+.m-check {
+  position: absolute;
+  left: 869px;
+  top: 21px;
+  width: 166px;
+  height: 48px;
+  border-style: solid;
+  border-width: 0 24px 0 16px;
+  border-image: url("/ui/btn_white_rectangle_reduced.png") 0 23 0 16 fill / 0 24px 0 16px stretch;
+  display: block;
+  color: #3c4a5c;
+  font-size: 18px;
+}
+.m-check i {
+  position: absolute;
+  left: -3px;
+  top: 13px;
+  width: 22px;
+  height: 22px;
+  background: url("/ui/icon_check_box.png") 0 0 / 100% 100%;
+}
+.m-check[aria-pressed="true"] i::after {
+  content: "";
+  position: absolute;
+  left: 2px;
+  top: 2.5px;
+  width: 20px;
+  height: 15px;
+  background: url("/ui/icon_check.png") 0 0 / 100% 100%;
+}
+.m-check span { position: absolute; left: 24px; top: 8.5px; width: 110px; height: 27px; line-height: 27px; text-align: center; }
+
+/* list panel: the game's ListRoot (base_scroll_list 9-slice, 613x552) with its viewport inset 8 / 26 / 14 / 16 */
+.m-panel {
+  position: absolute;
+  left: 498.5px;
+  top: 82px;
+  width: 613px;
+  height: 552px;
+  padding: 8px 18px 14px 16px;
+  z-index: 0;
+}
+.m-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-style: solid;
+  border-width: 24px 25px 28px 26px;
+  border-image: var(--ui-base_scroll_list, url("/ui/base_scroll_list.png")) 24 25 27 26 fill stretch;
+}
+.m-list {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 0 8px 0 0;
+  scroll-behavior: smooth;
+}
+/* Scrollbar: the scrollarea_blue track with a scrollbar_8px4px handle (tinted #dee3e4) */
+.m-list::-webkit-scrollbar { width: 8px; }
+.m-list::-webkit-scrollbar-track { border-style: solid; border-width: 3px; border-image: url("/ui/scrollarea_blue.png") 3 2 2 3 fill / 3px stretch; }
+.m-list::-webkit-scrollbar-thumb { border-radius: 4px; background: #dee3e4; }
+
+.m-empty { padding: 160px 20px; text-align: center; color: #7a8698; font-size: 20px; }
+
+.item { position: relative; display: block; width: 542px; margin: 0 0 12px; text-align: left; }
+.item:hover { filter: brightness(1.06); }
+.item:active { transform: translateY(1px); }
+.item:focus-visible { outline: 3px solid var(--pink); outline-offset: 2px; border-radius: 8px; }
+
+/* banner (layer with its own button art) */
+.item.banner img { display: block; width: 542px; height: auto; border-radius: 6px; }
+.item.banner .cap {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  max-width: 330px;
+  transform: translateY(-50%);
+  color: #fff;
+  font: 18px/1.2 var(--title);
+  letter-spacing: .01em;
+  text-shadow: 0 1px 2px rgba(0, 60, 170, .55);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+/* row (story / layer without art): the game's episode node - base_node_episode_reduced (9-slice, 550x117),
+   the thumbnail in mask_node_episode at 5,4 (164x105), cover_node_reduced (9-slice) at 162,1 (383x109) with its
+   white tab, the subtitle (18px) on the tab, the title (24px) below, btn_info_v2 top right, balloon_pink NEW! */
+.item.row {
+  width: 550px;
+  height: 117px;
+  margin-bottom: 4px;
+  border-style: solid;
+  border-width: 0 23px;
+  border-image: url("/ui/base_node_episode_reduced.png") 0 22 0 23 fill / 0 23px stretch;
+}
+.item.row::before {
+  content: '';
+  position: absolute;
+  left: 138.5px;
+  top: 1px;
+  width: 383px;
+  height: 109px;
+  border-style: solid;
+  border-width: 0 80px 0 16px;
+  border-image: url("/ui/cover_node_reduced.png") 0 79 0 16 fill / 0 80px 0 16px stretch;
+  box-sizing: border-box;
+  pointer-events: none;
+}
+.row .thumb {
+  position: absolute;
+  left: -18px;
+  top: 4px;
+  width: 164px;
+  height: 105px;
+  object-fit: cover;
+  object-position: center 18%;
+  background: url("/ui/noimage_thumbnail.png") center / cover;
+  border-radius: 9px;
+}
+.row .tab {
+  position: absolute;
+  left: 153.5px;
+  top: 7.5px;
+  width: 309px;
+  height: 28px;
+  color: #1a6fdc;
+  font-size: 18px;
+  line-height: 28px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.row .tab:empty { display: none; }
+.row .name {
+  position: absolute;
+  left: 152.5px;
+  top: 45px;
+  width: 361px;
+  color: #fff;
+  font-size: 24px;
+  line-height: 27px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+.row.no-tab .name { top: 45px; }
+.row .info {
+  position: absolute;
+  left: 484px;
+  top: 4px;
+  width: 34px;
+  height: 35px;
+  background: url("/ui/btn_info_v2.png") 0 0 / 100% 100%;
+  font-size: 0;
+}
+/* NEW!: balloon_pink with the text on it */
+.new {
+  position: absolute;
+  z-index: 2;
+  width: 90px;
+  height: 44px;
+  padding: 10px 8px 2px;
+  background: url("/ui/balloon_pink.png") 0 0 / 100% 100%;
+  color: #fff;
+  font: 22px/32px var(--title);
+  text-align: center;
+  pointer-events: none;
+}
+/* (measured in the game: overhanging the row's bottom edge) */
+.item.row .new { left: 447px; top: 83px; right: auto; bottom: auto; }
+.item.banner .new { right: -14px; bottom: -6px; }
+.m-list .item { margin-right: 0; }
+.item .state {
+  position: absolute;
+  right: 44px;
+  top: 9px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  background: rgba(0, 40, 110, .45);
+  color: #fff;
+  font-size: 12px;
+}
+.item.missing { filter: grayscale(.85) brightness(.9); cursor: not-allowed; }
+/* 中断エピソード: × deletes the bookmark */
+.row.has-del .name { width: 320px; }
+.item .del {
+  position: absolute;
+  left: 484px;
+  top: 52px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  border: 2.5px solid #fff;
+  background: rgba(0, 40, 110, .45);
+  cursor: pointer;
+}
+.item .del::before, .item .del::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 15px;
+  height: 3px;
+  margin: -1.5px 0 0 -7.5px;
+  border-radius: 2px;
+  background: #fff;
+  transform: rotate(45deg);
+}
+.item .del::after { transform: rotate(-45deg); }
+.item .del:hover { background: var(--pink); }
+
+/* right-click menu on stories: the game's sub menu frame */
+.ctx-menu {
+  position: absolute;
+  z-index: 120;
+  min-width: 220px;
+  border-style: solid;
+  border-width: 16px 18px 19px 16px;
+  border-image: url(/ui/soundplayer_submenu_bg.png) 16 18 19 16 fill;
+  animation: fadeIn .12s ease;
+}
+.ctx-menu button {
+  display: block;
+  width: 100%;
+  height: 44px;
+  padding: 0 14px;
+  border-radius: 6px;
+  color: #333;
+  font-size: 18px;
+  text-align: left;
+  white-space: nowrap;
+}
+.ctx-menu button:hover { background: #e6f3ff; color: #1a6fdc; }
+.item.missing::after {
+  content: "未ダウンロード";
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: rgba(30, 40, 60, .45);
+  color: #fff;
+  font-size: 22px;
+  letter-spacing: .1em;
+}
+.item.playing { box-shadow: 0 0 0 3px var(--pink), 0 2px 3px rgba(0, 50, 130, .25); }
+
+/* top エピソード screen (measured from the game) */
+.m-top { position: absolute; inset: 0; }
+#menu.at-top .m-panel, #menu.at-top .m-chara, #menu.at-top .m-foot, #menu.at-top .m-check, #menu.at-top .m-bg { display: none; }
+#menu.at-top {
+  background:
+    linear-gradient(rgba(150, 200, 255, .12) 1px, transparent 1px) 0 0 / 8px 8px,
+    linear-gradient(90deg, rgba(150, 200, 255, .12) 1px, transparent 1px) 0 0 / 8px 8px,
+    linear-gradient(160deg, #fff 60%, #e6f3ff);
+}
+#menu:not(.at-top) .m-top { display: none; }
+
+/* the game's EpisodeCategoryTabList: 260x105 tabs at 13,111 / 231 / 357, btn_episode_category (drawn 4px in)
+   or btn_episode_category_selected (3px in, 3px down); the count pill is part of the sprite */
+.t-side .t-cat {
+  position: absolute;
+  left: 13px;
+  width: 266px;
+  height: 108px;
+  display: block;
+  text-align: left;
+  color: #fff;
+  background: url("/ui/btn_episode_category.png") 4px 0 / 260px 105px no-repeat;
+}
+.t-side .t-cat.on { background: url("/ui/btn_episode_category_selected.png") 3px 3px / 262px 105px no-repeat; }
+.t-side .t-cat:nth-child(1) { top: 111.5px; }
+.t-side .t-cat:nth-child(2) { top: 231.5px; }
+.t-side .t-cat:nth-child(3) { top: 357.5px; }
+.t-cat-shape, .t-cat-arrow { display: none; }
+.t-cat-name { position: absolute; left: 15px; top: 13px; width: 190px; height: 35px; font: 22px/35px var(--title); text-align: center; white-space: nowrap; }
+.t-cat.on .t-cat-name { left: 17px; top: 12px; font-size: 24px; }
+.t-cat-count { position: absolute; left: 0; top: 56.5px; width: 260px; height: 28px; color: #6b7280; }
+.t-cat-count > * { position: absolute; top: 0; line-height: 28px; text-align: center; }
+.t-cat-count .lbl { left: 20px; width: 52px; font-size: 17px; }
+.t-cat-count b { font: 21px/28px var(--title); color: #1f6fe0; }
+.t-cat-count b:nth-of-type(1) { left: 74px; width: 58px; }
+.t-cat-count .sep { left: 136.5px; width: 11px; font-size: 18px; }
+.t-cat-count b:nth-of-type(2) { left: 145px; width: 60px; }
+/* (x from the prefab, y as measured in the game: the badge sits above the tab's top edge) */
+.t-side .t-cat .new { left: 168px; top: -13.5px; right: auto; bottom: auto; width: 80px; height: 37px; font-size: 20px; line-height: 25px; padding: 9px 8px 3px; }
+.t-side { position: absolute; inset: 0; pointer-events: none; }
+.t-side > * { pointer-events: auto; }
+
+/* the game's side buttons (116x49): キャラ検索 btn_blue_square + icon_search, 中断エピソード btn_orange_reduced +
+   icon_shiori, and the white btn_white_rectangle_reduced pair below */
+.t-btns { position: absolute; left: 22px; display: flex; gap: 12px; }
+.t-btns:nth-of-type(1) { top: 473.5px; }
+.t-btns:nth-of-type(2) { top: 533.5px; }
+.t-btn {
+  position: relative;
+  width: 116px;
+  height: 49px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 16px;
+  white-space: nowrap;
+  letter-spacing: -.03em;
+  background-repeat: no-repeat;
+  z-index: 0;
+}
+.t-btn::before { content: ''; position: absolute; inset: 0; z-index: -1; border-style: solid; box-sizing: border-box; }
+.t-btn::after { content: ''; position: absolute; background: 0 0 / 100% 100%; }
+.t-btn.blue { color: #fff; padding-left: 30px; font-size: 14.5px; }
+.t-btn.blue::after { left: 9.5px; top: 11px; width: 23px; height: 25px; background-image: url("/ui/icon_search.png"); }
+.t-btn.blue::before { border-width: 13px 14px 16px 12px; border-image: url("/ui/btn_blue_square.png") 13 14 16 12 fill stretch; }
+.t-btn.blue svg { display: none; }
+.t-btn.orange { color: #fff; padding-left: 22px; font-size: 13px; letter-spacing: -.04em; }
+.t-btn.orange::after { left: 7px; top: 7px; width: 18px; height: 29px; background-image: url("/ui/icon_shiori.png"); }
+.t-btn.orange::before { border-width: 23px 23px 24px 24px; border-image: url("/ui/btn_orange_reduced.png") 23 23 24 24 fill stretch; }
+.t-btn.white { color: #2f66b8; font-size: 18px; padding-bottom: 5px; }
+.t-btn.white::before { border-width: 0 24px 0 16px; border-image: url("/ui/btn_white_rectangle_reduced.png") 0 23 0 16 fill stretch; }
+.t-btn svg { width: 22px; height: 22px; fill: none; stroke: #2f7ce0; stroke-width: 3; stroke-linecap: round; }
+
+.t-centre { position: absolute; left: 295px; top: 113px; width: 809px; height: 470px; display: flex; gap: 30px; }
+.t-col { position: relative; width: 390px; }
+.t-series { position: relative; display: block; }
+.t-series img { display: block; width: 100%; filter: drop-shadow(0 4px 6px rgba(0, 40, 120, .3)); }
+.t-series:hover img { filter: drop-shadow(0 4px 6px rgba(0, 40, 120, .3)) brightness(1.06); }
+.t-series .new { right: -10px; top: -14px; bottom: auto; }
+.t-cat0 .t-series { width: 390px; }
+.t-cat1 { gap: 20px; }
+.t-cat1 .t-col, .t-cat1 .t-series { width: 187px; }
+.t-cat2 .t-col, .t-cat2 .t-series { width: 809px; }
+
+.t-rec {
+  position: absolute;
+  left: 0;
+  top: 343px;
+  width: 390px;
+  height: 121px;
+  background: center / 100% 100% no-repeat;
+  filter: drop-shadow(0 4px 6px rgba(0, 40, 120, .3));
+}
+.t-rec .thumb { position: absolute; left: 11px; top: 13px; width: 150px; height: 99px; object-fit: cover; border: 2px solid #fff; background: #24364f; }
+.t-rec .sub { position: absolute; left: 176px; top: 22px; width: 204px; height: 21px; color: #3a3f4a; font-size: 17px; line-height: 21px; white-space: nowrap; overflow: hidden; }
+.t-rec .name { position: absolute; left: 172px; top: 45px; width: 210px; color: #fff; font-size: 16px; line-height: 18px; }
+.t-rec .name .line { white-space: nowrap; overflow: hidden; }
+.mq { display: inline-block; animation: mq linear infinite alternate; }
+@keyframes mq { 0%, 15% { transform: translateX(0); } 85%, 100% { transform: translateX(var(--mq)); } }
+.t-rec .read {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0 1px;
+  line-height: 1;
+  position: absolute;
+  left: 205px;
+  top: 84px;
+  width: 151px;
+  height: 28px;
+  border-radius: 14px;
+  background: #fff;
+  border: 2px solid #b9c7da;
+  color: #3a3f4a;
+  font-size: 15px;
+}
+.t-rec .read:hover { background: #eef6ff; }
+
+.m-foot { position: absolute; inset: 0; pointer-events: none; }
+.m-foot > * { pointer-events: auto; }
+/* the list scene's two white buttons (BulkReduction / BulkDownload slots: btn_white_rectangle_reduced 120x44 and
+   116x44, centred 95px above the bottom) and the base_footer box under them (14px in, 13px up, 44px tall) */
+.m-pill {
+  position: absolute;
+  top: 523px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  /* centred on the button's face, not its 4px drop shadow (the game's label sits 2px above the box centre) */
+  padding-bottom: 5px;
+  color: #2f66b8;
+  font-size: 18px;
+  z-index: 0;
+}
+.m-pill::before { content: ''; position: absolute; inset: 0; z-index: -1; border-style: solid; box-sizing: border-box;
+  border-width: 0 24px 0 16px; border-image: url("/ui/btn_white_rectangle_reduced.png") 0 23 0 16 fill stretch; }
+#mSearch { left: 18px; width: 120px; }
+#mSettings { left: 152px; width: 116px; }
+.m-pill svg { width: 22px; height: 22px; fill: none; stroke: #2f7ce0; stroke-width: 2.4; stroke-linecap: round; }
+.m-count {
+  position: absolute;
+  left: 14px;
+  top: 583px;
+  height: 44px;
+  min-width: 254px;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  color: #3c6fb8;
+  font: 20px/1 var(--title);
+  z-index: 0;
+}
+.m-count::before { content: ''; position: absolute; inset: 0; z-index: -1; border-style: solid; box-sizing: border-box;
+  border-width: 13px 15px 15px 13px; border-image: var(--ui-base_footer, url("/ui/base_footer.png")) 13 14 14 13 fill stretch; }
+
+/* ======================================================================
+   Story player
+   ====================================================================== */
+#adv { background: #000; }
+#stage { position: absolute; inset: 0; overflow: hidden; cursor: pointer; }
+.layer { position: absolute; inset: 0; pointer-events: none; }
+
+/* bg, characters and item: the part of the scene adv_shake moves (the UI stays put) */
+#scene { z-index: 0; }
+#bg { z-index: 0; }
+#bg .bgimg {
+  position: absolute;
+  inset: 0;
+  background: #000 center / cover no-repeat;
+  /* background-color tints the image, as the game's RawImage.color does */
+  background-blend-mode: multiply;
+  /* the game's CrossFade clip: 80 frames, smoothstep */
+  transition: opacity 1.333s cubic-bezier(.333, 0, .667, 1);
+}
+#bg .bgimg + .bgimg { opacity: 0; }
+
+/* characters live in their own stacking context so they can never rise above the UI */
+#charas { z-index: 10; isolation: isolate; }
+.chara { position: absolute; bottom: 0; transform: translateX(-50%); opacity: 0; }
+.chara img { display: block; }
+.chara .face { position: absolute; }
+.chara.shadow { filter: brightness(0) opacity(.75); }
+.chara.noise { animation: noise .18s steps(2) infinite; }
+@keyframes noise { 0% { filter: contrast(1.3) brightness(1.1); translate: 1px 0 } 100% { filter: contrast(.9) hue-rotate(20deg); translate: -1px 0 } }
+
+/* the game's Item image: native size, centred 106.6px above the stage centre, x = PositionX */
+#item { z-index: 20; }
+#item img { position: absolute; top: 213.4px; transform: translate(-50%, -50%); }
+#movie { z-index: 5; width: 100%; height: 100%; object-fit: contain; background: #000; display: none; }
+/* title / subtitle cards: the game's Title prefab (banners, accent lines, sparkles), positioned in stage pixels */
+#title { z-index: 30; }
+#title .card, #title .card-bg, #title .card-line, #title .card-eff, #title .card-img, #title .card-text { position: absolute; }
+#title .card { inset: 0; }
+.card-bg.bar03 { width: 740px; height: 100px; background: var(--ui-scenariotetitlebar03, url("/ui/scenariotetitlebar03.png")) 0 0 / 100% 100%; }
+.card-bg.bar03.tall { height: 120px; }
+.card-bg.bar01 { width: 742px; height: 70px; background: var(--ui-scenariotetitlebar01, url("/ui/scenariotetitlebar01.png")) 0 0 / 100% 100%; }
+.card-line.bar02 { width: 210px; height: 26px; background: var(--ui-scenariotetitlebar02, url("/ui/scenariotetitlebar02.png")) 0 0 / 100% 100%; }
+.card-line.bar04 { width: 216px; height: 24px; background: var(--ui-scenariotetitlebar04, url("/ui/scenariotetitlebar04.png")) 0 0 / 100% 100%; }
+.card-eff { width: 64px; height: 64px; background: var(--ui-eff_scenariotetitle, url("/ui/eff_scenariotetitle.png")) 0 0 / 100% 100%; transform: scale(0); }
+.card-text { display: flex; align-items: center; color: #323232; font: 37px/1 "GameText", sans-serif; white-space: nowrap; overflow: hidden; }
+#fx { z-index: 40; overflow: hidden; }
+.fx-panel { position: absolute; top: 0; height: 640px; width: 1138px; left: -1px; }
+.fx-blur {
+  width: 2000px;
+  /* blur_left_black_mask_reduced is a 9-slice whose 784px left cap is the soft edge; the rest stretches */
+  background: var(--ui-blur_left_black_mask_reduced, url("/ui/blur_left_black_mask_reduced.png")) 0 0 / 816px 100% no-repeat, linear-gradient(#000, #000) 784px 0 / calc(100% - 784px) 100% no-repeat;
+}
+.fx-blur.flip { transform: scaleX(-1); }
+.fx-eyes { left: 0; width: 1136px; }
+
+/* filters cover what the game's BackCanvas draws (scene, movie, effects); the UI is left alone */
+#stage.f-gray #scene, #stage.f-gray #fx { filter: url(#adv-gray); }
+#stage.f-sepia #scene, #stage.f-sepia #fx { filter: url(#adv-sepia); }
+
+/* text box (measured from the game: name tab 135..531 x 419..457, box 135..1001 x 457..616) */
+#textbox { position: absolute; left: 134px; top: 419px; width: 868px; height: 197px; z-index: 50; pointer-events: none; }
+/* the game's frame_text_area 9-slice (name tab + translucent body, borders L400 B24 R24 T62; sliced 1px inside the
+   caps, which cover the whole image) - the tab is part of it, so it shows even when nobody is named */
+#textbox::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-style: solid;
+  border-width: 61px 23px 24px 400px;
+  border-image: var(--ui-frame_text_area, url("/ui/frame_text_area.png")) 61 23 24 400 fill stretch;
+}
+#namebox {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 396px;
+  height: 40px;
+  padding: 4px 14px 0;
+  display: flex;
+  align-items: center;
+}
+#speaker { color: var(--ink); font-size: 29.5px; line-height: 1; letter-spacing: .02em; white-space: nowrap; overflow: hidden; }
+#msgbox {
+  position: absolute;
+  left: 0;
+  top: 38px;
+  width: 868px;
+  height: 159px;
+}
+#dialogue {
+  position: absolute;
+  left: 26px;
+  top: 15px;
+  /* the game's Window text rect (inset 26 left, 14 right): the ▼ overlaps the end of a full row, as in the game */
+  right: 14px;
+  color: var(--ink);
+  font-size: 30px;
+  line-height: 43.5px;
+  /* 31px per full-width character, as measured in the game (its Text is 31px) */
+  letter-spacing: 1px;
+  white-space: pre-wrap;
+  word-break: break-all;
+  line-break: strict;
+  /* Unity keeps every full-width punctuation mark full width (newer browsers squeeze 、『 together, older ones don't) */
+  text-spacing-trim: space-all;
+}
+#dialogue .rest { visibility: hidden; }
+/* lines longer than 3 rows (set by showText): break anywhere and cut what doesn't fit, as the game's Text does */
+#dialogue.overflow { line-break: anywhere; max-height: 130.5px; overflow: hidden; }
+/* the game's NextMark: icon_next_delta, 25px from the right edge, its Next clip bobbing it between 15 and 10px up */
+#nextMark {
+  position: absolute;
+  right: 25px;
+  bottom: 15px;
+  width: 29px;
+  height: 19px;
+  background: url("/ui/icon_next_delta.png") 0 0 / 100% 100%;
+  opacity: 0;
+}
+#textbox.done #nextMark { opacity: 1; animation: bob 1s ease-in-out infinite; }
+/* the game's AutoMark: icon_auto / icon_fast_forward at the box's top-right corner while auto / fast-forward is on */
+#modeIcon { position: absolute; right: 0; top: 0; width: 62px; height: 62px; background: 0 0 / 100% 100%; display: none; }
+#modeIcon.auto { display: block; background-image: url("/ui/icon_auto.png"); }
+#modeIcon.fast { display: block; background-image: url("/ui/icon_fast_forward.png"); }
+@keyframes bob { 50% { translate: 0 5px } }
+
+/* choices (measured from the game): 705x62 translucent cyan banners, 160px apart, centred above the text box */
+/* choices: the game's btn_choice sprite (stars left, note right), 9-sliced horizontally (61 | stretch | 89).
+   705 wide, 160px apart, centred above the text box (measured from the game). */
+/* the game's Choice VerticalLayoutGroup: padding left 50 / bottom 155, spacing 77, centred; units 722x82 */
+#choices { z-index: 60; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 77px; padding: 0 0 155px 50px; pointer-events: auto; }
+#choices:empty { pointer-events: none; }
+#choices button {
+  width: 722px;
+  height: 82px;
+  padding: 0 0 0 28px;   /* re-centres the text: the right cap is 28px wider than the left */
+  border-style: solid;
+  border-width: 0 89px 0 61px;
+  /* the sprite's caps (61 + 89) cover its full 150px width, so slice the right cap 1px narrower to get a
+     1px centre column to stretch, which is what Unity's sliced image effectively does */
+  border-image: var(--ui-btn_choice, url("/ui/btn_choice.png")) 0 88 0 61 fill / 0 89px 0 61px stretch;
+  background: none;
+  color: #323232;
+  font-size: 25px;
+  white-space: nowrap;
+  overflow: hidden;
+}
+#choices button:hover, #choices button:focus-visible { filter: brightness(1.06); outline: none; }
+
+/* adv UI: MENU pill, toolbar (measured from the game) */
+#advui { position: absolute; inset: 0; z-index: 70; pointer-events: none; }
+#advui button { pointer-events: auto; }
+#adv.ui-hidden #advui, #adv.ui-hidden #textbox, #adv.ui-hidden #choices { visibility: hidden; }
+
+/* the game's AdvPlayerMenu: a menu_base pill (9-slice L19 B21 R19 T18, sliced 1px inside the caps) anchored 11px
+   from the top-right corner. Closed it is 100x39 with the Toggle's arrow and "MENU"; opened (ShowMenu clip, 0.2 s)
+   it grows to 900 and the button sprites fade in one by one, with 設定 sliding in at the top left. */
+.adv-menu, .tb-strip {
+  position: absolute;
+  right: 11px;
+  top: 11px;
+  height: 39px;
+  border-style: solid;
+  border-width: 18px 18px 20px 19px;
+  border-image: url("/ui/menu_base.png") 18 18 20 19 fill stretch;
+  background: none;
+  box-sizing: border-box;
+}
+.adv-menu { width: 100px; padding: 0; }
+.tb-strip { width: 900px; animation: tbGrow .2s linear both; }
+@keyframes tbGrow { 0% { width: 100px } 25% { width: 132.3px } 41.5% { width: 362.5px } 58.5% { width: 594px } 75% { width: 722.5px } 100% { width: 900px } }
+/* the Toggle: icon_menu_delta 33.5px left of its centre (pointing left when closed), the label 8.5px right of it */
+.adv-menu span, .tb-close span {
+  position: absolute;
+  left: -19px;
+  top: -18px;
+  width: 100px;
+  height: 39px;
+  padding-left: 17px;
+  color: #323232;
+  font: 20px/36px var(--jp);
+  text-align: center;
+  white-space: nowrap;
+}
+.adv-menu i, .tb-close i { position: absolute; left: 12.5px; top: 10px; width: 10px; height: 16px; background: url("/ui/icon_menu_delta.png") 0 0 / 100% 100%; }
+.adv-menu i { transform: scaleX(-1); }
+.adv-menu span i, .tb-close span i { left: 12.5px; top: 10px; }
+#adv.toolbar-open .adv-menu { display: none; }
+
+.tb-settings {
+  position: absolute;
+  left: 11px;
+  top: 11px;
+  width: 107px;
+  height: 39px;
+  background: url("/ui/btn_setting.png") 0 0 / 100% 100%;
+  font-size: 0;
+  animation: tbSlide .2s linear both;
+}
+@keyframes tbSlide { from { translate: -150px 0; opacity: 0 } }
+/* the button sprites (116x48, every 132px from 15px, 7px above the pill) with their labels baked in */
+.tb-btn {
+  position: absolute;
+  top: -25px;
+  width: 116px;
+  height: 48px;
+  background: 0 0 / 100% 100%;
+  font-size: 0;
+  animation: tbFade .05s linear both;
+}
+@keyframes tbFade { from { opacity: 0 } }
+#tbSkip { left: -4px; background-image: url("/ui/btn_skip.png"); animation-delay: .05s; }
+#tbAuto { left: 128px; background-image: url("/ui/btn_auto.png"); animation-delay: .067s; }
+#tbFast { left: 260px; background-image: url("/ui/btn_fast_forward.png"); animation-delay: .083s; }
+#tbLog { left: 392px; background-image: url("/ui/btn_log.png"); animation-delay: .1s; }
+#tbHide { left: 524px; background-image: url("/ui/btn_hide.png"); animation-delay: .133s; }
+#tbQuit { left: 656px; background-image: url("/ui/btn_interrupt.png"); animation-delay: .167s; animation-duration: .033s; }
+.tb-close { position: absolute; right: -18px; top: -18px; width: 102px; height: 39px; padding: 0; background: none; }
+.tb-close span { left: 0; top: 0; width: 102px; }
+.tb-close span i { transform: none; }
+
+/* full-screen movie: story UI hidden, tap shows the game's movie controls (measured from the game) */
+#adv.movie-playing #advui, #adv.movie-playing #textbox, #adv.movie-playing #choices { visibility: hidden; }
+#movieui, .mv-ui { position: absolute; inset: 0; z-index: 80; pointer-events: none; }
+#movieui button, #movieui .mv-bar, .mv-ui button, .mv-ui .mv-bar { pointer-events: auto; }
+/* the game's SkipButtonObject: btn_movie_skip (143x69) in the top-right corner, 5px down */
+.mv-skip { position: absolute; right: 0; top: 5px; width: 143px; height: 69px; padding: 0; background: url("/ui/btn_movie_skip.png") 0 0 / 100% 100%; font-size: 0; }
+.mv-pause {
+  position: absolute;
+  left: 154px;
+  top: 566px;
+  width: 68px;
+  height: 68px;
+  /* the game's PauseToggle: btn_movie_stop while playing, btn_movie_start when paused */
+  background: url("/ui/btn_movie_stop.png") 0 0 / 100% 100%;
+}
+.mv-pause.paused { background-image: url("/ui/btn_movie_start.png"); }
+.mv-pause i { display: none; }
+/* the game's SeekBar: 601x46 centred 20px left of the stage centre, 40px above the bottom */
+.mv-bar { position: absolute; left: 247.5px; top: 577px; width: 601px; height: 46px; cursor: pointer; }
+/* movie_seek_bar_base (9-slice L7 R7) with the movie_seek_bar_gauge (L5 R5) filling the played part */
+.mv-track { position: absolute; left: 0; right: 0; top: 18px; height: 10px; border-style: solid; border-width: 0 7px;
+  border-image: var(--ui-movie_seek_bar_base, url("/ui/movie_seek_bar_base.png")) 0 6 0 7 fill stretch; }
+.mv-track::after { content: ''; position: absolute; left: -5px; top: 1.5px; height: 7px; width: calc((100% + 10px) * var(--f, 0));
+  min-width: 10px; border-style: solid; border-width: 0 5px; box-sizing: border-box;
+  border-image: url("/ui/movie_seek_bar_gauge.png") 0 4 0 5 fill stretch; }
+/* the handle: movie_seek_bar_slider (20x46) centred on the position */
+.mv-thumb { position: absolute; top: 0; left: 0; width: 20px; height: 46px; background: url("/ui/movie_seek_bar_slider.png") 0 0 / 100% 100%; transform: translateX(-50%); }
+/* the game's Time: CurrentTime, "/" and TotalTime, each a left-aligned FOT-Zerksie 23px TMP scaled 0.7 (16.1px) with
+   the Outline_Black_Zerksie material, starting at x 865 / 919 / 932 and centred on the bar's line (y 600) */
+.mv-time {
+  position: absolute;
+  left: 865px;
+  top: 590px;
+  height: 20px;
+  color: #fff;
+  font: 16.1px/20px "GameTime", var(--title);
+  white-space: nowrap;
+  text-shadow: 1px 0 #000, -1px 0 #000, 0 1px #000, 0 -1px #000, 1px 1px #000, -1px 1px #000, 1px -1px #000, -1px -1px #000;
+}
+.mv-time span { position: absolute; top: 0; }
+.mv-time .cur { left: 0; }
+.mv-time .sep { left: 54px; }
+.mv-time .tot { left: 67px; }
+
+/* ======================================================================
+   Popups (game dialog style: blue checker header, white body)
+   ====================================================================== */
+#popups { position: absolute; inset: 0; z-index: 100; pointer-events: none; }
+.pop-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .45);
+  display: grid;
+  place-items: center;
+  pointer-events: auto;
+  animation: fadeIn .15s ease;
+}
+@keyframes fadeIn { from { opacity: 0 } }
+/* the game's popups: the base_popup 9-slice (L23 B24 R208 T44; the blue checkered header is its top cap) */
+.pop {
+  position: relative;
+  z-index: 0;
+  width: 712px;
+  max-height: 560px;
+  display: flex;
+  flex-direction: column;
+  animation: popIn .18s ease;
+  /* white under the frame's body, so the browser's resampling seams between 9-slice regions don't show through */
+  background: linear-gradient(#fff, #fff) 8px 40px / calc(100% - 16px) calc(100% - 58px) no-repeat;
+}
+.pop::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-style: solid;
+  border-width: 44px 208px 24px 23px;
+  border-image: var(--ui-base_popup, url("/ui/base_popup.png")) 44 208 24 23 fill stretch;
+}
+@keyframes popIn { from { transform: scale(.92); opacity: 0 } }
+.pop.wide { width: 900px; }
+.pop-head {
+  height: 44px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 24px;
+}
+.pop-body { padding: 22px 34px 10px; overflow-y: auto; overflow-x: hidden; color: #3a3a3a; font-size: 20px; line-height: 1.6; }
+.pop-body p { margin: 0 0 12px; text-align: center; }
+.pop-foot { display: flex; justify-content: center; gap: 26px; padding: 16px 0 24px; flex: none; }
+/* popup buttons: btn_blue_square (L12 B16 R14 T13) for the main one, btn_white_rect_square_reduced for the rest,
+   112x62 like the game's, wider when the label needs it */
+.pbtn {
+  position: relative;
+  z-index: 0;
+  min-width: 112px;
+  height: 62px;
+  padding: 0 18px 3px;
+  color: #fff;
+  font-size: 18px;
+}
+.pbtn::before { content: ''; position: absolute; inset: 0; z-index: -1; border-style: solid; box-sizing: border-box;
+  border-width: 13px 14px 16px 12px; border-image: var(--ui-btn_blue_square, url("/ui/btn_blue_square.png")) 13 14 16 12 fill stretch; }
+.pbtn.sub { color: #323232; }
+.pbtn.sub::before { border-width: 24px 20px 20px 20px;
+  border-image: var(--ui-btn_white_rect_square_reduced, url("/ui/btn_white_rect_square_reduced.png")) 23 19 20 20 fill stretch; }
+.pbtn:hover { filter: brightness(1.07); }
+.pbtn:focus { outline: none; }
+.pbtn:focus-visible { outline: 3px solid #7fc4ff; outline-offset: 2px; }
+.pill-label {
+  display: block;
+  width: max-content;
+  margin: 4px auto 8px;
+  padding: 2px 26px;
+  border-radius: 14px;
+  background: linear-gradient(#2b95ff, #1270e6);
+  color: #fff;
+  font-size: 17px;
+}
+.pill-label.wide { min-width: 270px; text-align: center; font-size: 18px; padding: 3px 26px; margin-bottom: 10px; }
+.chara-box {
+  position: relative;
+  z-index: 0;
+  min-height: 186px;
+  padding: 16px 14px 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 8px;
+}
+.chara-box::before { content: ''; position: absolute; inset: 0; z-index: -1; border-style: solid; box-sizing: border-box;
+  border-width: 24px 25px 27px 26px; border-image: var(--ui-base_scroll_list, url("/ui/base_scroll_list.png")) 24 25 27 26 fill stretch; }
+.chara-ic { width: 120px; text-align: center; }
+.chara-ic .ring {
+  position: relative;
+  width: 116px;
+  height: 116px;
+  margin: 0 auto;
+  border-radius: 50%;
+  border: 4px solid #2a68e0;
+  background: #fff;
+  overflow: hidden;
+}
+.chara-ic .ring img { width: 100%; height: 100%; object-fit: cover; display: block; }
+/* main characters: the game's MainFrame sprite (pink ring with MAIN) over the icon */
+.chara-ic.main .ring { border: 0; overflow: visible; padding: 12px; }
+.chara-ic.main .ring img { width: 92px; height: 92px; border-radius: 50%; }
+.chara-ic .main-tag {
+  position: absolute;
+  left: -2.5px;
+  top: -3px;
+  width: 121px;
+  height: 122px;
+  background: url("/ui/main.png") 0 0 / 100% 100%;
+  font-size: 0;
+}
+.chara-ic .nm { margin-top: 6px; color: #2a68e0; font-size: 19px; white-space: nowrap; }
+
+/* the base_footer 9-slice box (e.g. 全編視聴目安時間) */
+.value-box { position: relative; z-index: 0; margin: 0 0 8px; padding: 8px; text-align: center; }
+.value-box::before { content: ''; position: absolute; inset: 0; z-index: -1; border-style: solid; box-sizing: border-box;
+  border-width: 13px 15px 15px 13px; border-image: var(--ui-base_footer, url("/ui/base_footer.png")) 13 14 14 13 fill stretch; }
+
+/* settings */
+.set-row { display: grid; grid-template-columns: 170px 1fr 54px; align-items: center; gap: 16px; margin: 10px 0; }
+.set-row label { color: #2f66b8; }
+.set-row output { text-align: right; font: 18px var(--title); color: #3c6fb8; }
+/* sliders look like the game's option sliders: a grey track filled pink up to the OptionVolumeCursor handle (61x36) */
+.set-row input[type=range] { width: 100%; height: 36px; margin: 0; background: transparent; -webkit-appearance: none; appearance: none; --p: .5; }
+.set-row input[type=range]::-webkit-slider-runnable-track { height: 22px; background: linear-gradient(90deg, #ffccff calc(30.5px + (100% - 61px) * var(--p)), #ccc 0); }
+.set-row input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 61px; height: 36px; margin-top: -7px; border: 0; background: url("/ui/OptionVolumeCursor.png") 0 0 / 100% 100%; }
+.set-row input[type=range]::-moz-range-track { height: 22px; background: #ccc; }
+.set-row input[type=range]::-moz-range-progress { height: 22px; background: #ffccff; }
+.set-row input[type=range]::-moz-range-thumb { width: 61px; height: 36px; border: 0; border-radius: 0; background: url("/ui/OptionVolumeCursor.png") 0 0 / 100% 100%; }
+/* volume rows carry the game's speaker icons either side (OptionVolumeSmall / OptionVolumeBig) */
+.set-range.vol { padding: 0 54px 0 40px; }
+.set-range.vol::before, .set-range.vol::after { content: ''; position: absolute; top: 0.5px; height: 35px; background: 0 0 / 100% 100%; }
+.set-range.vol::before { left: 0; width: 32px; background-image: url("/ui/OptionVolumeSmall.png"); }
+.set-range.vol::after { right: 0; width: 47px; background-image: url("/ui/OptionVolumeBig.png"); }
+/* markers under a speed slider where the game's settings sit; --thumb keeps them under the thumb's centre */
+.set-range { position: relative; --thumb: 61px; }
+.set-mark {
+  position: absolute;
+  top: 100%;
+  left: calc(var(--thumb) / 2 + (100% - var(--thumb)) * var(--p) / 100);
+  width: 14px;
+  height: 12px;
+  margin-top: -2px;
+  padding: 0;
+  border: 0;
+  background: none;
+  transform: translateX(-50%);
+  cursor: pointer;
+}
+.set-mark::before {
+  content: '';
+  position: absolute;
+  left: 50%;
+  top: 0;
+  border: 5px solid transparent;
+  border-bottom: 7px solid #9fb6d6;
+  border-top: 0;
+  transform: translateX(-50%);
+}
+.set-mark.def::before { border-bottom-color: var(--pink); }
+.set-row .set-fs { justify-self: start; height: 46px; min-width: 150px; font-size: 18px; }
+.set-note { margin-top: 14px; color: #7a8698; font-size: 15px; text-align: center; }
+.keys { display: grid; grid-template-columns: 200px 1fr; gap: 6px 18px; font-size: 18px; }
+.keys kbd { font: 16px var(--jp); padding: 1px 8px; border: 1px solid #c4ccd8; border-bottom-width: 3px; border-radius: 5px; background: #f6f8fb; }
+
+/* backlog */
+.log-list { list-style: none; margin: 0; padding: 0; }
+.log-list li { display: grid; grid-template-columns: 1fr auto; gap: 8px 16px; padding: 12px 6px; border-bottom: 1px solid #e3e7ee; }
+.log-list .n { color: #1a72e2; font-size: 18px; }
+.log-list .t { grid-column: 1; white-space: pre-wrap; font-size: 20px; line-height: 1.55; color: #3a3a3a; }
+.log-list .acts { grid-column: 2; grid-row: 1 / span 2; display: flex; gap: 10px; align-items: center; }
+.log-list .acts button { height: 38px; padding: 0 14px; border-radius: 19px; border: 2px solid var(--cyan); color: #0b8fa8; font-size: 16px; background: #fff; }
+.log-list .acts button:hover { background: #e9fcff; }
+.log-list li.current { background: #f1f9ff; }
+
+/* backlog in the game's layout (measured: panel 88..1048 x 33..554, rows 160px apart) */
+.log-overlay { background: rgba(255, 255, 255, .25); }
+#adv.log-open #textbox, #adv.log-open #advui, #adv.log-open #choices { visibility: hidden; }
+.log-panel {
+  position: absolute;
+  left: 88px;
+  top: 33px;
+  width: 960px;
+  height: 521px;
+  /* the game's log_base frame (9-slice, 22px corners) */
+  border-style: solid;
+  border-width: 22px;
+  border-image: url("/ui/log_base.png") 21 22 22 21 fill / 22px stretch;
+  /* the game draws the panel whiter than the raw sprite */
+  background: rgba(255, 255, 255, .3);
+  background-clip: padding-box;
+  filter: drop-shadow(0 4px 10px rgba(0, 40, 100, .25));
+}
+/* positions below are the game's AdvLog prefab (panel-relative x/y, minus the 22px border for the padding box) */
+/* list: the ScrollList mask (panel y 7.5..513.5); its View sits 22px left of centre, so the 892-wide rows span x 12..904 */
+.log-rows { position: absolute; left: -10px; right: 5px; top: -14.5px; bottom: -14.5px; overflow-y: auto; padding: 5px 0 0; }
+/* scrollbar: 6px at panel x 927..933, track y 40..495 */
+.log-rows::-webkit-scrollbar { width: 6px; }
+.log-rows::-webkit-scrollbar-track { margin: 32.5px 0 18.5px; }
+.log-rows::-webkit-scrollbar-thumb { border-style: solid; border-width: 5px 0; border-image: url("/ui/log_scroll_bar.png") 5 0 fill / 5px 0 stretch; }
+/* a row is the node's 892x150 BaseImage (nodes 160 apart): Dialogue 727x142 at right -5, so the bubble starts at x 160 */
+.log-row { position: relative; width: 892px; min-height: 150px; margin: 0 0 10px; padding: 4px 5px 4px 160px; }
+/* current line: the game's frame_log_choice pink frame (9-slice, 28px) on the BaseImage */
+.log-row.current::before { content: ''; position: absolute; inset: 0; border-style: solid; border-width: 28px;
+  border-image: url("/ui/frame_log_choice.png") 27 28 28 27 / 28px stretch; pointer-events: none; }
+/* Chara 105x103 at x 45, its centre 20.5 above the node's; Name (TMP) 105x30 centred 52 below it */
+.log-row .who { position: absolute; left: 45px; top: 3px; width: 105px; text-align: center; }
+.log-row .face {
+  position: relative;
+  width: 105px;
+  height: 103px;
+  border-style: solid;
+  border-width: 16px;
+  border-image: url("/ui/icon_face_base.png") 15 fill / 16px stretch;
+}
+/* the game's speaker icon: icon_face_base under the face (masked 96x94), icon_face_frame over it */
+.log-row .face::after { content: ''; position: absolute; inset: -16px; border-style: solid; border-width: 16px;
+  border-image: url("/ui/icon_face_frame.png") 15 / 16px stretch; pointer-events: none; }
+.log-row .face canvas { position: absolute; left: -11.5px; top: -11.5px; width: 96px; height: 94px; display: block; border-radius: 10px; }
+.log-row .nm {
+  margin-top: 6px;
+  height: 30px;
+  line-height: 30px;
+  /* the game's Outline_Cyan_Rodin: white face, cyan (#3bc9ff) outline; character spacing 4 */
+  color: #fff;
+  font-size: 19px;
+  letter-spacing: .04em;
+  white-space: nowrap;
+  text-shadow: 1.5px 0 #3bc9ff, -1.5px 0 #3bc9ff, 0 1.5px #3bc9ff, 0 -1.5px #3bc9ff, 1px 1px #3bc9ff, -1px 1px #3bc9ff, 1px -1px #3bc9ff, -1px -1px #3bc9ff;
+}
+/* no speaker chara: the game's NoSpeakerName (node x 0, 159x30, vertically centred, wraps, spacing -8) */
+.log-row .nsn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 159px;
+  transform: translateY(-50%);
+  text-align: center;
+  /* the game's Outline_Gray_Rodin: white face, grey (#808080) outline */
+  color: #fff;
+  font-size: 19px;
+  line-height: 1.1;
+  letter-spacing: -.08em;
+  text-shadow: 1.5px 0 #808080, -1.5px 0 #808080, 0 1.5px #808080, 0 -1.5px #808080, 1px 1px #808080, -1px 1px #808080, 1px -1px #808080, -1px -1px #808080;
+}
+.log-row .bubble {
+  position: relative;
+  min-height: 142px;
+  /* the viewer's own voice / rewind buttons sit in the bubble's right side */
+  padding: 0 104px 0 0;
+  /* the game's log_text_base bubble (9-slice, 22px corners); its Text (TMP) is inset 16 left, 20 top */
+  border-style: solid;
+  border-width: 20px 0 0 16px;
+  border-image: url("/ui/log_text_base.png") 21 22 22 21 fill / 22px stretch;
+}
+/* Text (TMP): 26px, #3f3f3f, no extra character spacing */
+.log-row .t { color: #3f3f3f; font-size: 26px; line-height: 39px; white-space: pre-wrap; }
+.log-row .acts { position: absolute; right: 20px; bottom: 12px; width: 96px; display: flex; flex-direction: column; gap: 6px; }
+.log-row .acts button { height: 32px; padding: 0 8px; white-space: nowrap; border-radius: 16px; border: 2px solid var(--cyan); color: #0b8fa8; font-size: 15px; background: #fff; }
+.log-row .acts button:hover { background: #e9fcff; }
+/* the game's Close (btn_close, 55x55): top-right of the panel, raised 31px */
+.log-close {
+  position: absolute;
+  left: 882px;
+  top: -53px;
+  width: 55px;
+  height: 55px;
+  background: url("/ui/btn_close.png") 0 0 / 100% 100%;
+}
+
+/* search */
+.search-input { width: 100%; height: 46px; padding: 0 14px; border: 2px solid #9cc4f2; border-radius: 8px; font: 20px var(--jp); color: #333; outline: none; }
+.search-input:focus { border-color: var(--blue); }
+.search-results { margin-top: 12px; }
+.search-results .item { transform: scale(.98); transform-origin: left; }
+.search-results .path { margin: -6px 0 10px 4px; font-size: 13px; color: #7a8698; }
+
+/* the game's eff_tapcircle sprite (a white glow ring) tinted mint green */
+.tap-ring {
+  position: absolute;
+  z-index: 200;
+  width: 150px;
+  height: 150px;
+  margin: -75px 0 0 -75px;
+  background: rgb(140, 240, 180);
+  -webkit-mask: url("/ui/eff_tapcircle.png") center / contain no-repeat;
+  mask: url("/ui/eff_tapcircle.png") center / contain no-repeat;
+  pointer-events: none;
+  animation: tapRing .45s ease-out forwards;
+}
+@keyframes tapRing { from { transform: scale(.35); opacity: 1; } to { transform: scale(1); opacity: 0; } }
+
+#toast {
+  position: absolute;
+  left: 50%;
+  top: 70px;
+  transform: translateX(-50%);
+  z-index: 110;
+  padding: 8px 20px;
+  border-radius: 20px;
+  background: rgba(0, 0, 0, .7);
+  color: #fff;
+  font-size: 18px;
+  opacity: 0;
+  transition: opacity .3s;
+  pointer-events: none;
+  white-space: nowrap;
+}
+#toast.show { opacity: 1; }

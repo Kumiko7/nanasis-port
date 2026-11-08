@@ -1,3 +1,13 @@
+# Tokyo 7th Sisters
+
+A PC port of the [*Tokyo 7th Sisters* mobile game](https://vndb.org/v52711).
+
+It only contains the story viewer, no gacha or rhythm gameplay included.
+
+Download from the [Releases](https://github.com/Kumiko7/nanasis-port/releases) page.
+
+## Below, development details:
+
 # Story viewer
 
 Version: 0.3
